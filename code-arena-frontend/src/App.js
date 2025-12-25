@@ -6,7 +6,7 @@ import Chat from "./Chat";
 import Timer from "./Timer";
 import Auth from "./Auth";
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("https://code-arena-backend-w7vw.onrender.com");
 
 function App() {
   const [token, setToken] = useState(null);

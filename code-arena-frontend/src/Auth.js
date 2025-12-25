@@ -19,7 +19,7 @@ const Auth = ({ onLogin }) => {
 
     const endpoint = isLogin ? "/login" : "/signup";
     // Make sure port 5000 is correct for your backend
-    const url = `http://localhost:5000/api/auth${endpoint}`;
+    const url = `https://code-arena-backend-w7vw.onrender.com/api/auth${endpoint}`;
 
     try {
       const res = await axios.post(url, formData);

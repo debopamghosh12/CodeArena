@@ -1,118 +1,115 @@
 import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
+import axios from "axios";
 import Confetti from "react-confetti";
+import "./App.css";
 
-function CodeEditor({ socket, roomId, problem }) {
-  const [code, setCode] = useState("// Write your solution here...");
-  const [output, setOutput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+const CodeEditor = ({ socket, roomId, problem, username }) => {
+  const [code, setCode] = useState("// Write your code here...");
   const [language, setLanguage] = useState("javascript");
-  
+  const [output, setOutput] = useState("");
+  const [isRunning, setIsRunning] = useState(false);
   const [isWinner, setIsWinner] = useState(false);
-  const [status, setStatus] = useState(""); 
 
-  const LANGUAGE_VERSIONS = {
-    javascript: "18.15.0",
-    python: "3.10.0",
-    java: "15.0.2",
-    c: "10.2.0",
-    cpp: "10.2.0",
-  };
-
-  useEffect(() => {
-    socket.on("receive_code", (data) => setCode(data.code));
-  }, [socket]);
-
+  // Handle Code Change & Sync via Socket
   const handleEditorChange = (value) => {
     setCode(value);
     socket.emit("send_code", { code: value, room: roomId });
   };
 
+  // Listen for incoming code changes
+  useEffect(() => {
+    socket.on("receive_code", (data) => {
+      setCode(data.code);
+    });
+    return () => socket.off("receive_code");
+  }, [socket]);
+
+  // ➤ RUN CODE FUNCTION (Connected to Live Render Server)
   const runCode = async () => {
-    setIsLoading(true);
-    setStatus(""); 
-    setOutput("Running tests...");
+    setIsRunning(true);
+    setOutput("Running code... ⏳");
 
     try {
-      const response = await fetch("https://emkc.org/api/v2/piston/execute", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          language: language,
-          version: LANGUAGE_VERSIONS[language],
-          files: [{ content: code }],
-        }),
-      });
-      const data = await response.json();
+      const testInput = problem?.testCases?.[0]?.input || "";
       
-      const runOutput = data.run ? data.run.output.trim() : ""; 
-      setOutput(runOutput);
+      // 👇 Updated with YOUR Render Backend Link
+      const response = await axios.post("https://code-arena-backend-w7vw.onrender.com/api/compile", {
+        code: code,
+        language: language,
+        input: testInput
+      });
 
-      // --- JUDGE LOGIC ---
-      if (problem) {
+      const result = response.data.run.output;
+      
+      // LOGIC CHECK
+      if (problem && problem.testCases) {
         const expected = problem.testCases[0].output.trim();
-        if (runOutput === expected) {
-            setStatus("✅ PASSED! YOU WON!");
-            setIsWinner(true);
+        const actual = result.trim();
+        
+        if (actual === expected) {
+            setOutput(result);
+            setIsWinner(true); // Trigger Confetti 🎉
+
+            // ➤ SAVE SCORE TO DB (Live Backend)
+            await axios.post("https://code-arena-backend-w7vw.onrender.com/api/users/win", { username });
         } else {
-            setStatus(`❌ FAILED. Expected: "${expected}"`);
+            setOutput(result + `\n\n❌ FAILED. Expected: "${expected}"`);
             setIsWinner(false);
         }
+      } else {
+          setOutput(result);
       }
+
     } catch (error) {
-      setOutput("Failed to run code: " + error.message);
+      setOutput("Error connecting to server ❌. Make sure backend is live!");
+      console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsRunning(false);
     }
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", position: "relative" }}>
-      
-      {/* CONFETTI EXPLOSION */}
+    <div className="code-editor-wrapper">
       {isWinner && <Confetti width={window.innerWidth} height={window.innerHeight} />}
-
-      {/* Problem Header */}
-      <div style={{ padding: "15px", background: "#161b22", color: "white", borderBottom: "1px solid #30363d" }}>
-        <h3 style={{ margin: "0 0 5px 0", color: "#2ea043" }}>Mission: {problem ? problem.title : "Loading..."}</h3>
-        <p style={{ margin: 0, fontSize: "14px", opacity: 0.8 }}>{problem ? problem.description : "Wait for instructions..."}</p>
-      </div>
-
-      {/* Control Bar */}
-      <div className="top-bar" style={{ background: "#1e1e1e", borderBottom: "none" }}>
-        <select className="lang-select" value={language} onChange={(e) => setLanguage(e.target.value)}>
-            <option value="javascript">JavaScript</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
-            <option value="cpp">C++</option>
+      
+      <div className="editor-header">
+        <select 
+          className="lang-select" 
+          value={language} 
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option value="javascript">JavaScript (Node)</option>
+          <option value="python">Python 3</option>
+          <option value="cpp">C++</option>
         </select>
 
-        <span style={{ marginLeft: "15px", fontWeight: "bold", color: isWinner ? "#2ea043" : "#da3633" }}>{status}</span>
-
-        <button className="btn-run" onClick={runCode} disabled={isLoading}>
-            {isLoading ? "Running..." : "▶ Submit Solution"}
-        </button>
+        {isWinner ? (
+            <button className="btn-run" style={{background: "gold", color: "black", cursor: "default"}}>
+                 🏆 WINNER!
+            </button>
+        ) : (
+            <button className="btn-run" onClick={runCode} disabled={isRunning}>
+            {isRunning ? "Running..." : "▶ Run Code"}
+            </button>
+        )}
       </div>
 
-      {/* Editor */}
-      <div style={{ flex: 1 }}>
-        <Editor
-          height="100%"
-          language={language === "c" || language === "cpp" ? "cpp" : language}
-          value={code}
-          onChange={handleEditorChange}
-          theme="vs-dark"
-          options={{ fontSize: 16, minimap: { enabled: false } }}
-        />
-      </div>
+      <Editor
+        height="60vh"
+        theme="vs-dark"
+        language={language}
+        value={code}
+        onChange={handleEditorChange}
+        options={{ fontSize: 14, scrollBeyondLastLine: false }}
+      />
 
-      {/* Output */}
       <div className="output-terminal">
-        <h4 style={{ margin: "0 0 10px 0", color: "#888" }}>TERMINAL_OUTPUT &gt;</h4>
-        <pre style={{ margin: 0 }}>{output}</pre>
+        <div className="terminal-header">TERMINAL_OUTPUT &gt;</div>
+        <pre>{output}</pre>
       </div>
     </div>
   );
-}
+};
 
 export default CodeEditor;
