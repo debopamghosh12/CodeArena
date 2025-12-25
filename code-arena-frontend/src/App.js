@@ -1,138 +1,84 @@
-import "./App.css";
+import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
-import { useState, useEffect } from "react";
-import CodeEditor from "./CodeEditor";
-import Chat from "./Chat";
-import Timer from "./Timer";
 import Auth from "./Auth";
+import CodeEditor from "./CodeEditor";
+import "./App.css";
 
+// 👇 IMPORTANT: Link-er sheshe kono '/' dibi na!
 const socket = io.connect("https://code-arena-backend-w7vw.onrender.com");
 
 function App() {
-  const [token, setToken] = useState(null);
   const [username, setUsername] = useState("");
-
   const [room, setRoom] = useState("");
-  const [difficulty, setDifficulty] = useState("easy");
-  const [showChat, setShowChat] = useState(false);
-  const [problem, setProblem] = useState(null);
-  const [startTime, setStartTime] = useState(null);
+  const [showEditor, setShowEditor] = useState(false);
   
-  // UI State: 'create' or 'join'
-  const [mode, setMode] = useState("create"); 
+  // 🔥 PROBLEM STATE (Eta null thakle 'Connecting...' dekhay)
+  const [problem, setProblem] = useState(null);
 
-  const handleLogin = (userToken, userName) => {
-    setToken(userToken);
-    setUsername(userName);
+  // 1. Listen for Incoming Questions
+  useEffect(() => {
+    socket.on("load_question", (data) => {
+      console.log("🔥 Mission Received from Server:", data); // Console check korbi
+      if (data && data.problem) {
+        setProblem(data.problem);
+      }
+    });
+
+    return () => {
+      socket.off("load_question");
+    };
+  }, []);
+
+  const handleLogin = (user) => {
+    setUsername(user);
   };
 
-  // --- SYSTEM GENERATED ID ---
-  const createRoom = () => {
-    // Random 6-character ID (e.g., A7X9P2)
-    const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
-    setRoom(roomId);
-    
-    // Auto Join
-    socket.emit("join_room", { room: roomId, difficulty });
-    setShowChat(true);
-  };
-
-  const joinRoom = () => {
-    if (room !== "") {
-      socket.emit("join_room", { room, difficulty }); // Joiner er difficulty matter kore na
-      setShowChat(true);
+  const handleJoinRoom = () => {
+    if (room !== "" && username !== "") {
+      console.log("🚀 Joining Room:", room);
+      // Join Room Event Send
+      socket.emit("join_room", { room, difficulty: "easy" });
+      setShowEditor(true);
     }
   };
 
-  useEffect(() => {
-    const handleQuestion = (data) => {
-      setProblem(data.problem);
-      setStartTime(data.startTime);
-    };
-
-    socket.on("load_question", handleQuestion);
-    return () => socket.off("load_question", handleQuestion);
-  }, []);
-
-  if (!token) {
-    return (
-      <div className="App">
-        <Auth onLogin={handleLogin} />
-      </div>
-    );
-  }
-
   return (
     <div className="App">
-      {!showChat ? (
-        <div className="joinChatContainer">
-          <h3>⚡ Code Arena ⚡</h3>
-          <p>Welcome, <b style={{color: "#2ea043"}}>{username}</b>! 🚀</p>
-
-          {/* TOGGLE TABS */}
-          <div className="tab-container">
+      {!username ? (
+        <Auth onLogin={handleLogin} />
+      ) : !showEditor ? (
+        <div className="join-container" style={{
+            display: "flex", 
+            flexDirection: "column", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            height: "100vh", 
+            color: "white"
+        }}>
+          <h2>🚀 Welcome, {username}!</h2>
+          <div style={{background: "#2d2d2d", padding: "20px", borderRadius: "10px"}}>
+            <input
+                type="text"
+                placeholder="Enter Room ID (e.g. ROOM1)"
+                onChange={(event) => setRoom(event.target.value)}
+                style={{padding: "10px", marginRight: "10px", borderRadius: "5px", border: "none"}}
+            />
             <button 
-                className={mode === "create" ? "tab active" : "tab"} 
-                onClick={() => setMode("create")}
+                onClick={handleJoinRoom}
+                style={{padding: "10px 20px", background: "#007acc", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontWeight: "bold"}}
             >
-                Create Room
-            </button>
-            <button 
-                className={mode === "join" ? "tab active" : "tab"} 
-                onClick={() => setMode("join")}
-            >
-                Join Room
+                Start Mission ⚔️
             </button>
           </div>
-
-          {/* CREATE MODE */}
-          {mode === "create" ? (
-            <div className="tab-content">
-                <label>Select Difficulty:</label>
-                <select 
-                    className="difficulty-selector"
-                    value={difficulty}
-                    onChange={(e) => setDifficulty(e.target.value)}
-                >
-                    <option value="easy">🟢 Easy</option>
-                    <option value="medium">🟡 Medium </option>
-                    <option value="hard">🔴 Hard </option>
-                </select>
-                <button className="btn-primary" onClick={createRoom}>
-                    GENERATE & START ⚔️
-                </button>
-            </div>
-          ) : (
-            /* JOIN MODE */
-            <div className="tab-content">
-                <label>Enter Room ID:</label>
-                <input
-                    type="text"
-                    placeholder="e.g. A7X9P2"
-                    onChange={(e) => setRoom(e.target.value)}
-                />
-                <button className="btn-primary" onClick={joinRoom}>
-                    JOIN BATTLE 🛡️
-                </button>
-            </div>
-          )}
-
         </div>
       ) : (
-        <div className="arena-container">
-          <div className="editor-section">
-            <div className="top-bar">
-               <div className="room-info">
-                 ROOM ID: <b style={{color: "#da3633", fontSize: "18px"}}>{room}</b> | PLAYER: <b>{username}</b>
-               </div>
-               {startTime && <Timer startTime={startTime} />}
-            </div>
-            <CodeEditor socket={socket} roomId={room} problem={problem} />
-          </div>
-          <div className="sidebar-section">
-            <Chat socket={socket} username={username} room={room} />
-          </div>
-        </div>
+        // Pass problem & username to Editor
+        <CodeEditor
+          socket={socket}
+          roomId={room}
+          problem={problem}
+          username={username}
+        />
       )}
     </div>
   );
