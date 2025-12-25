@@ -16,7 +16,7 @@ const Auth = ({ onLogin }) => {
     const endpoint = isLogin ? "/login" : "/signup";
     
     try {
-      // 👇 LINK CHECK: Sheshe slash nei
+      // 👇 Link thik ache
       const url = `https://code-arena-backend-w7vw.onrender.com/api/auth${endpoint}`;
       
       const payload = isLogin ? { email, password } : { username, email, password };

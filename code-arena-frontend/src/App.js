@@ -4,7 +4,6 @@ import Auth from "./Auth";
 import CodeEditor from "./CodeEditor";
 import "./App.css";
 
-// 👇 Socket Connection to Render Backend
 const socket = io.connect("https://code-arena-backend-w7vw.onrender.com");
 
 function App() {
@@ -14,12 +13,19 @@ function App() {
   const [problem, setProblem] = useState(null);
 
   useEffect(() => {
-    // 🔥 Listen for Question Data
     socket.on("load_question", (data) => {
       console.log("🔥 Mission Data Received:", data); 
       
       if (data && data.problem) {
         setProblem(data.problem);
+      } else {
+        // Fallback for null problem
+        console.warn("⚠️ Received NULL problem from server");
+        setProblem({
+            title: "Connection Test",
+            description: "Server sent empty data. Write any code to test.",
+            testCases: [{input: "1", output: "1"}]
+        });
       }
     });
 
@@ -29,7 +35,6 @@ function App() {
   }, []);
 
   const handleLogin = (user) => {
-    // 🔥 Ensures 'user' is just a string name
     setUsername(user); 
   };
 
