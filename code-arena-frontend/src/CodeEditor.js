@@ -11,13 +11,13 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [isWinner, setIsWinner] = useState(false);
 
-  // Sync Code via Socket
+  // Sync Code
   const handleEditorChange = (value) => {
     setCode(value);
     socket.emit("send_code", { code: value, room: roomId });
   };
 
-  // Listen for Code Changes (Opponent typing)
+  // Listen for opponent's code
   useEffect(() => {
     socket.on("receive_code", (data) => {
       setCode(data.code);
@@ -33,7 +33,6 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
     try {
       const testInput = problem?.testCases?.[0]?.input || "";
       
-      // 👇 TOR RENDER BACKEND LINK (UPDATED)
       const response = await axios.post("https://code-arena-backend-w7vw.onrender.com/api/compile", {
         code: code,
         language: language,
@@ -45,13 +44,12 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
       // Check Win Logic
       if (problem && problem.testCases) {
         const expected = problem.testCases[0].output.trim();
-        const actual = result.trim(); // Remove extra spaces
+        const actual = result.trim(); 
         
         if (actual === expected) {
-            setOutput(result + "\n\n✨ TEST CASE PASSED! YOU WON! 🏆 ✨");
-            setIsWinner(true); // Confetti Start
-
-            // Save Win to Database
+            setOutput(result + "\n\n✨ TEST PASSED! YOU WON! 🏆 ✨");
+            setIsWinner(true); 
+            // Save Win
             await axios.post("https://code-arena-backend-w7vw.onrender.com/api/users/win", { username });
         } else {
             setOutput(result + `\n\n❌ FAILED.\nExpected: "${expected}"\nGot: "${actual}"`);
@@ -71,10 +69,9 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
 
   return (
     <div className="code-editor-wrapper">
-      {/* Confetti Effect when User Wins */}
       {isWinner && <Confetti width={window.innerWidth} height={window.innerHeight} />}
       
-      {/* ➤ QUESTION BOX SECTION */}
+      {/* ➤ QUESTION BOX */}
       {problem ? (
         <div className="question-box">
             <h3>📝 Mission: {problem.title}</h3>
@@ -91,7 +88,7 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
         </div>
       )}
 
-      {/* ➤ EDITOR HEADER (Dropdown & Run Button) */}
+      {/* ➤ HEADER */}
       <div className="editor-header">
         <select 
           className="lang-select" 
@@ -114,7 +111,6 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
         )}
       </div>
 
-      {/* ➤ CODE EDITOR AREA */}
       <Editor
         height="50vh"
         theme="vs-dark"
@@ -124,7 +120,6 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
         options={{ fontSize: 14, scrollBeyondLastLine: false, minimap: { enabled: false } }}
       />
 
-      {/* ➤ TERMINAL OUTPUT */}
       <div className="output-terminal">
         <div className="terminal-header">TERMINAL_OUTPUT &gt;</div>
         <pre>{output}</pre>

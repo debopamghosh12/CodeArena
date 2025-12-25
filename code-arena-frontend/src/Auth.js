@@ -1,86 +1,63 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./App.css";
+import "./App.css"; 
 
 const Auth = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ username: "", email: "", password: "" });
-  const [message, setMessage] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setError("");
+    setError(""); 
 
     const endpoint = isLogin ? "/login" : "/signup";
-    // Make sure port 5000 is correct for your backend
-    const url = `https://code-arena-backend-w7vw.onrender.com/api/auth${endpoint}`;
-
+    
     try {
-      const res = await axios.post(url, formData);
+      // 👇 LINK CHECK: Sheshe slash nei
+      const url = `https://code-arena-backend-w7vw.onrender.com/api/auth${endpoint}`;
+      
+      const payload = isLogin ? { email, password } : { username, email, password };
+
+      const res = await axios.post(url, payload);
       
       if (isLogin) {
-        // Login Successful -> NO ALERT -> Direct Entry
-        onLogin(res.data.token, res.data.username); 
+        // 🔥 CRITICAL FIX: Send only the username string
+        console.log("Login Success:", res.data);
+        onLogin(res.data.username); 
       } else {
-        // Signup Successful -> Show Text Message, NO ALERT
-        setMessage("✅ Signup Successful! Please Login now.");
-        setIsLogin(true); // Switch to Login view automatically
+        setIsLogin(true);
+        setError("Account created! Please log in.");
       }
+
     } catch (err) {
-      setError(err.response?.data?.msg || "Something went wrong");
+      console.error(err);
+      setError(err.response?.data?.msg || "Authentication failed");
     }
   };
 
   return (
-    <div className="joinChatContainer">
-      <h3>{isLogin ? "Login" : "Register"}</h3>
+    <div className="auth-container" style={{textAlign: "center", marginTop: "50px", color: "white"}}>
+      <h2>{isLogin ? "🔐 Login to Code Arena" : "📝 Sign Up"}</h2>
       
-      {!isLogin && (
-        <input 
-          type="text" 
-          name="username" 
-          placeholder="Username" 
-          onChange={handleChange} 
-        />
-      )}
-      
-      <input 
-        type="email" 
-        name="email" 
-        placeholder="Email Address" 
-        onChange={handleChange} 
-      />
-      
-      <input 
-        type="password" 
-        name="password" 
-        placeholder="Password" 
-        onChange={handleChange} 
-      />
+      <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", gap: "10px", width: "300px", margin: "0 auto"}}>
+        {!isLogin && (
+          <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required style={{padding: "10px", borderRadius: "5px"}}/>
+        )}
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{padding: "10px", borderRadius: "5px"}}/>
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{padding: "10px", borderRadius: "5px"}}/>
+        
+        <button type="submit" style={{padding: "10px", background: "#28a745", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontWeight: "bold", fontSize: "16px"}}>
+          {isLogin ? "Login" : "Sign Up"}
+        </button>
+      </form>
 
-      <button className="btn-primary" onClick={handleSubmit}>
-        {isLogin ? "Login" : "Sign Up"}
-      </button>
+      {error && <p style={{color: "#ff4d4d", marginTop: "10px", fontWeight: "bold"}}>{error}</p>}
 
-      {/* Messages show korbe without Popup */}
-      {message && <p style={{ color: "#2ea043", marginTop: "10px", fontWeight: "bold" }}>{message}</p>}
-      {error && <p style={{ color: "#da3633", marginTop: "10px", fontWeight: "bold" }}>{error}</p>}
-
-      <p 
-        style={{ color: "#58a6ff", cursor: "pointer", marginTop: "15px", fontSize: "14px" }} 
-        onClick={() => {
-            setIsLogin(!isLogin);
-            setMessage("");
-            setError("");
-        }}
-      >
-        {isLogin ? "New here? Create Account" : "Already have an account? Login"}
+      <p style={{marginTop: "20px", cursor: "pointer", color: "#61dafb"}} onClick={() => setIsLogin(!isLogin)}>
+        {isLogin ? "New here? Create an account" : "Already have an account? Login"}
       </p>
     </div>
   );
