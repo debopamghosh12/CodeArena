@@ -13,7 +13,7 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
 
   // ➤ SIZE STATE (Default 250px)
   const [terminalHeight, setTerminalHeight] = useState(250);
-  const containerRef = useRef(null); // Full wrapper reference
+  const containerRef = useRef(null); 
 
   // Sync Code
   const handleEditorChange = (value) => {
@@ -26,19 +26,15 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
     return () => socket.off("receive_code");
   }, [socket]);
 
-  // ➤ DRAG RESIZE LOGIC 🖱️
+  // ➤ DRAG RESIZE LOGIC
   const startResizing = (mouseDownEvent) => {
-    mouseDownEvent.preventDefault(); // Selection bondho koro
+    mouseDownEvent.preventDefault();
     
-    const startY = mouseDownEvent.clientY; // Mouse kothay start holo
-    const startHeight = terminalHeight;    // Terminal er current height
+    const startY = mouseDownEvent.clientY; 
+    const startHeight = terminalHeight;    
 
     const onMouseMove = (mouseMoveEvent) => {
-      // Mouse joto niche jabe, Height kombe. Joto upore, Height barbe.
-      // Delta = StartY - CurrentY (Upore gele positive)
       const newHeight = startHeight + (startY - mouseMoveEvent.clientY);
-      
-      // Min 100px, Max 80% of screen limit set korlam
       if (newHeight > 50 && newHeight < window.innerHeight * 0.8) {
         setTerminalHeight(newHeight);
       }
@@ -49,7 +45,6 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
       document.removeEventListener("mouseup", onMouseUp);
     };
 
-    // Global listener add korlam (jate dragger chere dileo kaj kore)
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
   };
@@ -89,7 +84,7 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
     <div className="code-editor-wrapper" ref={containerRef}>
       {isWinner && <Confetti width={window.innerWidth} height={window.innerHeight} />}
       
-      {/* 1. SCROLLABLE TOP SECTION (Question + Header + Editor) */}
+      {/* 1. SCROLLABLE TOP SECTION */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}>
         
         {/* Question Box */}
@@ -122,10 +117,10 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
             )}
         </div>
 
-        {/* EDITOR - Takes remaining space automatically */}
+        {/* EDITOR */}
         <div style={{ flex: 1, minHeight: 0 }}>
             <Editor
-                height="100%" // ✨ Magic: Eta Flex container er height nebe
+                height="100%"
                 theme="vs-dark"
                 language={language}
                 value={code}
@@ -135,19 +130,20 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
         </div>
       </div>
 
-      {/* 2. DRAGGABLE HANDLE (The Control you wanted) */}
+      {/* 2. DRAGGABLE HANDLE */}
       <div 
         className="resizer-handle"
-        onMouseDown={startResizing} // 🔥 Start Dragging
+        onMouseDown={startResizing} 
         title="Drag to resize terminal"
       >
         <div className="handle-dots"></div>
       </div>
 
-      {/* 3. TERMINAL (Height controlled by State) */}
+      {/* 3. TERMINAL */}
       <div className="output-terminal" style={{ height: `${terminalHeight}px` }}>
+        {/* 🔥 UPDATE: Removed the size text here */}
         <div className="terminal-header" style={{position: "sticky", top: 0, background: "#000", padding: "5px 0", borderBottom: "1px solid #333"}}>
-            TERMINAL_OUTPUT &gt; (Size: {Math.round(terminalHeight)}px)
+            TERMINAL_OUTPUT &gt;
         </div>
         <pre>{output}</pre>
       </div>
