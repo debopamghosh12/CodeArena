@@ -11,13 +11,13 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [isWinner, setIsWinner] = useState(false);
 
-  // Handle Code Change & Sync via Socket
+  // Sync Code via Socket
   const handleEditorChange = (value) => {
     setCode(value);
     socket.emit("send_code", { code: value, room: roomId });
   };
 
-  // Listen for incoming code changes
+  // Listen for Code Changes (Opponent typing)
   useEffect(() => {
     socket.on("receive_code", (data) => {
       setCode(data.code);
@@ -25,15 +25,15 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
     return () => socket.off("receive_code");
   }, [socket]);
 
-  // ➤ RUN CODE FUNCTION (Connected to Live Render Server)
+  // ➤ RUN CODE FUNCTION
   const runCode = async () => {
     setIsRunning(true);
-    setOutput("Running code... ⏳");
+    setOutput("Running code on Render Server... ⏳");
 
     try {
       const testInput = problem?.testCases?.[0]?.input || "";
       
-      // 👇 Updated with YOUR Render Backend Link
+      // 👇 TOR RENDER BACKEND LINK (UPDATED)
       const response = await axios.post("https://code-arena-backend-w7vw.onrender.com/api/compile", {
         code: code,
         language: language,
@@ -42,19 +42,19 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
 
       const result = response.data.run.output;
       
-      // LOGIC CHECK
+      // Check Win Logic
       if (problem && problem.testCases) {
         const expected = problem.testCases[0].output.trim();
-        const actual = result.trim();
+        const actual = result.trim(); // Remove extra spaces
         
         if (actual === expected) {
-            setOutput(result);
-            setIsWinner(true); // Trigger Confetti 🎉
+            setOutput(result + "\n\n✨ TEST CASE PASSED! YOU WON! 🏆 ✨");
+            setIsWinner(true); // Confetti Start
 
-            // ➤ SAVE SCORE TO DB (Live Backend)
+            // Save Win to Database
             await axios.post("https://code-arena-backend-w7vw.onrender.com/api/users/win", { username });
         } else {
-            setOutput(result + `\n\n❌ FAILED. Expected: "${expected}"`);
+            setOutput(result + `\n\n❌ FAILED.\nExpected: "${expected}"\nGot: "${actual}"`);
             setIsWinner(false);
         }
       } else {
@@ -62,7 +62,7 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
       }
 
     } catch (error) {
-      setOutput("Error connecting to server ❌. Make sure backend is live!");
+      setOutput("Error connecting to server ❌. Server might be sleeping (Wait 30s & try again).");
       console.error(error);
     } finally {
       setIsRunning(false);
@@ -71,8 +71,27 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
 
   return (
     <div className="code-editor-wrapper">
+      {/* Confetti Effect when User Wins */}
       {isWinner && <Confetti width={window.innerWidth} height={window.innerHeight} />}
       
+      {/* ➤ QUESTION BOX SECTION */}
+      {problem ? (
+        <div className="question-box">
+            <h3>📝 Mission: {problem.title}</h3>
+            <p>{problem.description}</p>
+            <div style={{fontSize: "0.85rem", color: "#aaa", marginTop: "10px", background: "#1e1e1e", padding: "10px", borderRadius: "5px"}}>
+                <strong>Example Input: </strong> {problem.testCases[0].input} <br/>
+                <strong>Expected Output: </strong> {problem.testCases[0].output}
+            </div>
+        </div>
+      ) : (
+        <div className="question-box">
+            <h3>⏳ Connecting to HQ...</h3>
+            <p>Waiting for mission details from server. (If it takes long, refresh the page).</p>
+        </div>
+      )}
+
+      {/* ➤ EDITOR HEADER (Dropdown & Run Button) */}
       <div className="editor-header">
         <select 
           className="lang-select" 
@@ -86,7 +105,7 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
 
         {isWinner ? (
             <button className="btn-run" style={{background: "gold", color: "black", cursor: "default"}}>
-                 🏆 WINNER!
+                 🏆 CHAMPION!
             </button>
         ) : (
             <button className="btn-run" onClick={runCode} disabled={isRunning}>
@@ -95,15 +114,17 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
         )}
       </div>
 
+      {/* ➤ CODE EDITOR AREA */}
       <Editor
-        height="60vh"
+        height="50vh"
         theme="vs-dark"
         language={language}
         value={code}
         onChange={handleEditorChange}
-        options={{ fontSize: 14, scrollBeyondLastLine: false }}
+        options={{ fontSize: 14, scrollBeyondLastLine: false, minimap: { enabled: false } }}
       />
 
+      {/* ➤ TERMINAL OUTPUT */}
       <div className="output-terminal">
         <div className="terminal-header">TERMINAL_OUTPUT &gt;</div>
         <pre>{output}</pre>
