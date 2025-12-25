@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
 import Confetti from "react-confetti";
@@ -11,40 +11,65 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [isWinner, setIsWinner] = useState(false);
 
+  // ➤ SIZE STATE (Default 250px)
+  const [terminalHeight, setTerminalHeight] = useState(250);
+  const containerRef = useRef(null); // Full wrapper reference
+
+  // Sync Code
   const handleEditorChange = (value) => {
     setCode(value);
     socket.emit("send_code", { code: value, room: roomId });
   };
 
   useEffect(() => {
-    socket.on("receive_code", (data) => {
-      setCode(data.code);
-    });
+    socket.on("receive_code", (data) => setCode(data.code));
     return () => socket.off("receive_code");
   }, [socket]);
+
+  // ➤ DRAG RESIZE LOGIC 🖱️
+  const startResizing = (mouseDownEvent) => {
+    mouseDownEvent.preventDefault(); // Selection bondho koro
+    
+    const startY = mouseDownEvent.clientY; // Mouse kothay start holo
+    const startHeight = terminalHeight;    // Terminal er current height
+
+    const onMouseMove = (mouseMoveEvent) => {
+      // Mouse joto niche jabe, Height kombe. Joto upore, Height barbe.
+      // Delta = StartY - CurrentY (Upore gele positive)
+      const newHeight = startHeight + (startY - mouseMoveEvent.clientY);
+      
+      // Min 100px, Max 80% of screen limit set korlam
+      if (newHeight > 50 && newHeight < window.innerHeight * 0.8) {
+        setTerminalHeight(newHeight);
+      }
+    };
+
+    const onMouseUp = () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+
+    // Global listener add korlam (jate dragger chere dileo kaj kore)
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  };
 
   const runCode = async () => {
     setIsRunning(true);
     setOutput("Running code on Render Server... ⏳");
-
     try {
       const testInput = problem?.testCases?.[0]?.input || "";
-      
       const response = await axios.post("https://code-arena-backend-w7vw.onrender.com/api/compile", {
-        code: code,
-        language: language,
-        input: testInput
+        code, language, input: testInput
       });
 
       const result = response.data.run.output;
-      
       if (problem && problem.testCases) {
         const expected = problem.testCases[0].output.trim();
-        const actual = result.trim(); 
-        
+        const actual = result.trim();
         if (actual === expected) {
             setOutput(result + "\n\n✨ TEST PASSED! YOU WON! 🏆 ✨");
-            setIsWinner(true); 
+            setIsWinner(true);
             await axios.post("https://code-arena-backend-w7vw.onrender.com/api/users/win", { username });
         } else {
             setOutput(result + `\n\n❌ FAILED.\nExpected: "${expected}"\nGot: "${actual}"`);
@@ -53,51 +78,77 @@ const CodeEditor = ({ socket, roomId, problem, username }) => {
       } else {
           setOutput(result);
       }
-
     } catch (error) {
-      setOutput("Error connecting to server ❌. Server might be sleeping (Wait 30s & try again).");
+      setOutput("Error connecting to server ❌.");
     } finally {
       setIsRunning(false);
     }
   };
 
   return (
-    <div className="code-editor-wrapper">
+    <div className="code-editor-wrapper" ref={containerRef}>
       {isWinner && <Confetti width={window.innerWidth} height={window.innerHeight} />}
       
-      {problem ? (
-        <div className="question-box">
-            <h3>📝 Mission: {problem.title}</h3>
-            <p>{problem.description}</p>
-            <div style={{fontSize: "0.85rem", color: "#aaa", marginTop: "10px", background: "#1e1e1e", padding: "10px", borderRadius: "5px"}}>
-                <strong>Example Input: </strong> {problem.testCases?.[0]?.input || "N/A"} <br/>
-                <strong>Expected Output: </strong> {problem.testCases?.[0]?.output || "N/A"}
+      {/* 1. SCROLLABLE TOP SECTION (Question + Header + Editor) */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}>
+        
+        {/* Question Box */}
+        {problem ? (
+            <div className="question-box">
+                <h3>📝 Mission: {problem.title}</h3>
+                <p>{problem.description}</p>
+                <div style={{fontSize: "0.85rem", color: "#aaa", marginTop: "10px", background: "#1e1e1e", padding: "10px", borderRadius: "5px"}}>
+                    <strong>Input: </strong> {problem.testCases?.[0]?.input} <br/>
+                    <strong>Output: </strong> {problem.testCases?.[0]?.output}
+                </div>
             </div>
-        </div>
-      ) : (
-        <div className="question-box"><h3>⏳ Connecting...</h3></div>
-      )}
-
-      <div className="editor-header">
-        <select className="lang-select" value={language} onChange={(e) => setLanguage(e.target.value)}>
-          <option value="javascript">JavaScript (Node)</option>
-          <option value="python">Python 3</option>
-          <option value="cpp">C++</option>
-        </select>
-
-        {isWinner ? (
-            <button className="btn-run" style={{background: "gold", color: "black"}}>🏆 CHAMPION!</button>
         ) : (
-            <button className="btn-run" onClick={runCode} disabled={isRunning}>
-            {isRunning ? "Running..." : "▶ Run Code"}
-            </button>
+            <div className="question-box"><h3>⏳ Connecting...</h3></div>
         )}
+
+        {/* Header */}
+        <div className="editor-header">
+            <select className="lang-select" value={language} onChange={(e) => setLanguage(e.target.value)}>
+            <option value="javascript">JavaScript (Node)</option>
+            <option value="python">Python 3</option>
+            <option value="cpp">C++</option>
+            </select>
+            {isWinner ? (
+                <button className="btn-run" style={{background: "gold", color: "black"}}>🏆 CHAMPION!</button>
+            ) : (
+                <button className="btn-run" onClick={runCode} disabled={isRunning}>
+                {isRunning ? "Running..." : "▶ Run Code"}
+                </button>
+            )}
+        </div>
+
+        {/* EDITOR - Takes remaining space automatically */}
+        <div style={{ flex: 1, minHeight: 0 }}>
+            <Editor
+                height="100%" // ✨ Magic: Eta Flex container er height nebe
+                theme="vs-dark"
+                language={language}
+                value={code}
+                onChange={handleEditorChange}
+                options={{ fontSize: 14, scrollBeyondLastLine: false, minimap: { enabled: false } }}
+            />
+        </div>
       </div>
 
-      <Editor height="50vh" theme="vs-dark" language={language} value={code} onChange={handleEditorChange} options={{ fontSize: 14, scrollBeyondLastLine: false }} />
+      {/* 2. DRAGGABLE HANDLE (The Control you wanted) */}
+      <div 
+        className="resizer-handle"
+        onMouseDown={startResizing} // 🔥 Start Dragging
+        title="Drag to resize terminal"
+      >
+        <div className="handle-dots"></div>
+      </div>
 
-      <div className="output-terminal">
-        <div className="terminal-header">TERMINAL_OUTPUT &gt;</div>
+      {/* 3. TERMINAL (Height controlled by State) */}
+      <div className="output-terminal" style={{ height: `${terminalHeight}px` }}>
+        <div className="terminal-header" style={{position: "sticky", top: 0, background: "#000", padding: "5px 0", borderBottom: "1px solid #333"}}>
+            TERMINAL_OUTPUT &gt; (Size: {Math.round(terminalHeight)}px)
+        </div>
         <pre>{output}</pre>
       </div>
     </div>

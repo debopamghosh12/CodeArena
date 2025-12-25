@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;600&display=swap');
 
 /* ➤ GLOBAL RESET (Puro Screen Dakhol Koro) */
+/* ➤ GLOBAL RESET (Puro Screen Dakhol Koro) */
 html, body, #root {
   margin: 0;
   padding: 0;
@@ -126,7 +127,7 @@ html, body, #root {
   color: white;
 }
 
-/* ➤ SPLIT SCREEN CONTAINER (Fix for "Squeezed" Issue) */
+/* ➤ SPLIT SCREEN CONTAINER */
 .battle-arena {
   display: flex;
   width: 100vw; /* Full Width */
@@ -134,7 +135,7 @@ html, body, #root {
   overflow: hidden;
 }
 
-/* Left Side: Editor Wrapper */
+/* ➤ EDITOR WRAPPER (Updated for Resizer) */
 .code-editor-wrapper {
   display: flex;
   flex-direction: column;
@@ -142,6 +143,7 @@ html, body, #root {
   padding: 10px;
   box-sizing: border-box;
   background-color: #1e1e1e;
+  overflow: hidden; /* Important for resize */
 }
 
 /* Right Side: Chat Window */
@@ -153,7 +155,37 @@ html, body, #root {
   border-left: 2px solid #111;
 }
 
-/* ➤ EDITOR & TERMINAL */
+/* ➤ DRAGGABLE RESIZER HANDLE (NEW 🔥) */
+.resizer-handle {
+  height: 10px;
+  background: #333;
+  cursor: row-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  transition: background 0.2s;
+  flex-shrink: 0; /* Handle choto hobe na */
+}
+
+.resizer-handle:hover {
+  background: #007acc;
+}
+
+.handle-dots {
+  width: 40px;
+  height: 4px;
+  background: repeating-linear-gradient(
+    to right,
+    #888 0,
+    #888 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* ➤ EDITOR & QUESTION */
 .question-box {
   background: #252526;
   padding: 15px;
@@ -162,6 +194,7 @@ html, body, #root {
   text-align: left;
   color: white;
   border-radius: 4px;
+  flex-shrink: 0; /* Box resize hobe na */
 }
 
 .editor-header {
@@ -172,19 +205,21 @@ html, body, #root {
   background-color: #2d2d2d;
   border-radius: 8px;
   margin-bottom: 10px;
+  flex-shrink: 0;
 }
 
+/* ➤ TERMINAL (Updated for Resize) */
 .output-terminal {
   background-color: #000;
   color: #0f0;
   padding: 15px;
-  margin-top: 10px;
-  flex: 1; /* Nicher baki jayga nebe */
+  /* margin-top removed for seamless resize */
   overflow-y: auto;
-  border-radius: 5px;
-  border: 1px solid #333;
-  text-align: left;
+  border-radius: 0;
+  border: none;
   font-family: monospace;
+  box-sizing: border-box;
+  /* Height is controlled by JS now */
 }
 
 /* ➤ CHAT STYLES */
