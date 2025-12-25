@@ -543,3 +543,99 @@ body {
   border-radius: 5px;
   font-size: 1.2rem;
 }
+/* ... Ager sob code thakuk (Chat CSS etc) ... */
+
+/* ➤ NAVBAR (Room ID & Player Info) */
+.navbar {
+  height: 50px;
+  background-color: #151515;
+  border-bottom: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.nav-brand {
+  font-weight: bold;
+  color: #61dafb;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.room-info {
+  background: #333;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-family: monospace;
+  font-size: 1rem;
+  color: #ffcc00; /* Yellow text for visibility */
+  border: 1px solid #555;
+}
+
+/* ➤ DASHBOARD (Create vs Join) */
+.dashboard-container {
+  display: flex;
+  gap: 30px; /* Space between cards */
+  margin-top: 30px;
+}
+
+.card {
+  background: #252526;
+  padding: 30px;
+  border-radius: 12px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  border: 1px solid #333;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #61dafb;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.card input, .card select {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  background: #333;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 5px;
+}
+
+.btn-action {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-create {
+  background: linear-gradient(45deg, #007acc, #00d4ff);
+  color: white;
+}
+
+.btn-join {
+  background: linear-gradient(45deg, #28a745, #5ddb79);
+  color: white;
+}
+
+.btn-action:hover {
+  opacity: 0.9;
+}
