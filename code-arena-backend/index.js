@@ -33,32 +33,31 @@ io.on("connection", (socket) => {
     socket.join(room);
     
     if (!roomState[room]) {
-      console.log(`🔎 Finding Question for Room: ${room}`);
       try {
-        // 🔥 Robust Query: Falls back to ANY question if 'difficulty' query fails
         const count = await Question.countDocuments();
         const random = Math.floor(Math.random() * count);
         let randomQ = await Question.findOne().skip(random);
 
         if (!randomQ) {
-            // Backup dummy question if DB is truly empty
             randomQ = {
                 title: "Emergency Mission",
-                description: "Database is empty. Print 'Hello World'",
+                description: "Database is empty.",
                 testCases: [{input: "", output: "Hello World"}]
             };
         }
-
-        roomState[room] = { problem: randomQ, startTime: Date.now() };
-        console.log("✅ Question Found:", randomQ.title);
-
+        roomState[room] = { problem: randomQ };
       } catch (err) {
         console.error("❌ Error fetching question:", err);
       }
     }
-
     io.to(room).emit("load_question", roomState[room]);
   });
+
+  // ➤ CHAT LOGIC START
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  });
+  // ➤ CHAT LOGIC END
 
   socket.on("send_code", (data) => socket.to(data.room).emit("receive_code", data));
   socket.on("disconnect", () => console.log("User Disconnected"));
