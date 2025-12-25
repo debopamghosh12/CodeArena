@@ -1,0 +1,878 @@
+[
+  {
+    "title": "Sum of Two Numbers",
+    "description": "Given two integers, return their sum.",
+    "difficulty": "easy",
+    "testCases": [
+      { "input": "3 5", "output": "8" }
+    ]
+  },
+  {
+    "title": "Reverse a String",
+    "description": "Given a string, output the string reversed.",
+    "difficulty": "easy",
+    "testCases": [
+      { "input": "hello", "output": "olleh" }
+    ]
+  },
+  {
+    "title": "Maximum of Array",
+    "description": "Given an array of integers, find the maximum element.",
+    "difficulty": "easy",
+    "testCases": [
+      { "input": "5\n1 3 2 9 4", "output": "9" }
+    ]
+  },
+  {
+    "title": "Count Vowels",
+    "description": "Given a string, count the number of vowels in it.",
+    "difficulty": "easy",
+    "testCases": [
+      { "input": "education", "output": "5" }
+    ]
+  },
+  {
+    "title": "Even or Odd",
+    "description": "Given an integer, determine whether it is even or odd.",
+    "difficulty": "easy",
+    "testCases": [
+      { "input": "7", "output": "odd" }
+    ]
+  },
+  {
+    "title": "Two Sum Indices",
+    "description": "Given an array of integers and a target value, return the indices of the two numbers that add up to the target.",
+    "difficulty": "medium",
+    "testCases": [
+      { "input": "4\n2 7 11 15\n9", "output": "0 1" }
+    ]
+  },
+  {
+    "title": "Longest Word in Sentence",
+    "description": "Given a sentence, find the longest word. If multiple words have the same maximum length, return the first one.",
+    "difficulty": "medium",
+    "testCases": [
+      { "input": "The quick brown fox jumps", "output": "quick" }
+    ]
+  },
+  {
+    "title": "Valid Parentheses",
+    "description": "Given a string containing parentheses (), {}, and [], determine if the input string is valid.",
+    "difficulty": "medium",
+    "testCases": [
+      { "input": "{[()]}", "output": "true" }
+    ]
+  },
+  {
+    "title": "Rotate Array",
+    "description": "Given an array, rotate it to the right by k steps.",
+    "difficulty": "medium",
+    "testCases": [
+      { "input": "5\n1 2 3 4 5\n2", "output": "4 5 1 2 3" }
+    ]
+  },
+  {
+    "title": "First Non-Repeating Character",
+    "description": "Given a string, find the first character that does not repeat. If none exists, output -1.",
+    "difficulty": "medium",
+    "testCases": [
+      { "input": "aabbcdd", "output": "c" }
+    ]
+  },
+  {
+    "title": "Merge Intervals",
+    "description": "Given a list of intervals, merge all overlapping intervals.",
+    "difficulty": "hard",
+    "testCases": [
+      { "input": "3\n1 3\n2 6\n8 10", "output": "1 6\n8 10" }
+    ]
+  },
+  {
+    "title": "Longest Substring Without Repeating Characters",
+    "description": "Given a string, find the length of the longest substring without repeating characters.",
+    "difficulty": "hard",
+    "testCases": [
+      { "input": "abcabcbb", "output": "3" }
+    ]
+  },
+  {
+    "title": "Minimum Window Substring",
+    "description": "Given two strings s and t, find the minimum window in s which will contain all the characters in t.",
+    "difficulty": "hard",
+    "testCases": [
+      { "input": "ADOBECODEBANC\nABC", "output": "BANC" }
+    ]
+  },
+  {
+    "title": "Trapping Rain Water",
+    "description": "Given an array representing elevation heights, compute how much water can be trapped after raining.",
+    "difficulty": "hard",
+    "testCases": [
+      { "input": "12\n0 1 0 2 1 0 1 3 2 1 2 1", "output": "6" }
+    ]
+  },
+  {
+    "title": "Word Break",
+    "description": "Given a string and a dictionary of words, determine if the string can be segmented into a space-separated sequence of dictionary words.",
+    "difficulty": "hard",
+    "testCases": [
+      { "input": "leetcode\n2\nleet code", "output": "true" }
+    ]
+  },
+  {
+    "title": "Palindrome Check",
+    "description": "Given a string, determine whether it is a palindrome.",
+    "difficulty": "easy",
+    "testCases": [
+      { "input": "madam", "output": "true" }
+    ]
+  },
+  {
+    "title": "Binary Search",
+    "description": "Given a sorted array and a target value, return the index of the target or -1 if not found.",
+    "difficulty": "easy",
+    "testCases": [
+      { "input": "5\n1 3 5 7 9\n7", "output": "3" }
+    ]
+  },
+  {
+    "title": "Kth Largest Element",
+    "description": "Given an array of integers, find the kth largest element.",
+    "difficulty": "medium",
+    "testCases": [
+      { "input": "6\n3 2 1 5 6 4\n2", "output": "5" }
+    ]
+  },
+  {
+    "title": "Detect Cycle in Linked List",
+    "description": "Given a linked list, determine if it has a cycle. Output true or false.",
+    "difficulty": "medium",
+    "testCases": [
+      { "input": "1 2 3 4 2", "output": "true" }
+    ]
+  },
+  {
+    "title": "Edit Distance",
+    "description": "Given two strings, find the minimum number of operations required to convert one string into the other.",
+    "difficulty": "hard",
+    "testCases": [
+      { "input": "horse ros", "output": "3" }
+    ]
+  },
+  {
+    "title": "Add Two Integers",
+    "description": "Given two integers, output their sum.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "2 3", "output": "5" }]
+  },
+  {
+    "title": "Subtract Two Integers",
+    "description": "Given two integers, output the result of subtracting the second from the first.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "10 4", "output": "6" }]
+  },
+  {
+    "title": "Multiply Two Integers",
+    "description": "Given two integers, output their product.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "6 7", "output": "42" }]
+  },
+  {
+    "title": "Check Even or Odd",
+    "description": "Determine whether a given integer is even or odd.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "9", "output": "odd" }]
+  },
+  {
+    "title": "Maximum of Two Numbers",
+    "description": "Given two integers, output the larger one.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "5 8", "output": "8" }]
+  },
+  {
+    "title": "Minimum of Array",
+    "description": "Given an array of integers, find the minimum value.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "5\n4 2 7 1 9", "output": "1" }]
+  },
+  {
+    "title": "Sum of Array",
+    "description": "Given an array of integers, compute the sum of its elements.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "4\n1 2 3 4", "output": "10" }]
+  },
+  {
+    "title": "Count Digits",
+    "description": "Given an integer, count the number of digits.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "12345", "output": "5" }]
+  },
+  {
+    "title": "Reverse String",
+    "description": "Given a string, output its reverse.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "code", "output": "edoc" }]
+  },
+  {
+    "title": "Palindrome String",
+    "description": "Check if a given string is a palindrome.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "level", "output": "true" }]
+  },
+  {
+    "title": "Factorial",
+    "description": "Given an integer n, compute n factorial.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "5", "output": "120" }]
+  },
+  {
+    "title": "Fibonacci Number",
+    "description": "Given n, return the nth Fibonacci number (0-indexed).",
+    "difficulty": "easy",
+    "testCases": [{ "input": "6", "output": "8" }]
+  },
+  {
+    "title": "Count Vowels",
+    "description": "Count the number of vowels in a string.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "hello", "output": "2" }]
+  },
+  {
+    "title": "Binary to Decimal",
+    "description": "Convert a binary number to decimal.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "1011", "output": "11" }]
+  },
+  {
+    "title": "Decimal to Binary",
+    "description": "Convert a decimal number to binary.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "10", "output": "1010" }]
+  },
+  {
+    "title": "Linear Search",
+    "description": "Find the index of a target element in an array using linear search.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "5\n1 3 5 7 9\n7", "output": "3" }]
+  },
+  {
+    "title": "Binary Search",
+    "description": "Find the index of a target element in a sorted array.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "5\n2 4 6 8 10\n6", "output": "2" }]
+  },
+  {
+    "title": "Count Words",
+    "description": "Count the number of words in a sentence.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "hello world from code", "output": "4" }]
+  },
+  {
+    "title": "Sum of Digits",
+    "description": "Compute the sum of digits of a number.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "456", "output": "15" }]
+  },
+  {
+    "title": "Prime Check",
+    "description": "Check if a given number is prime.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "13", "output": "true" }]
+  },
+
+  {
+    "title": "Two Sum",
+    "description": "Given an array and a target, return indices of two numbers adding to the target.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "4\n2 7 11 15\n9", "output": "0 1" }]
+  },
+  {
+    "title": "Longest Word",
+    "description": "Find the longest word in a sentence.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "find the longest word", "output": "longest" }]
+  },
+  {
+    "title": "Valid Parentheses",
+    "description": "Check if a string of brackets is valid.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "{[()]}", "output": "true" }]
+  },
+  {
+    "title": "Rotate Array",
+    "description": "Rotate an array to the right by k steps.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "5\n1 2 3 4 5\n2", "output": "4 5 1 2 3" }]
+  },
+  {
+    "title": "Merge Sorted Arrays",
+    "description": "Merge two sorted arrays into one sorted array.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "3\n1 3 5\n3\n2 4 6", "output": "1 2 3 4 5 6" }]
+  },
+  {
+    "title": "First Non-Repeating Character",
+    "description": "Return the first non-repeating character in a string.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "aabbcddee", "output": "c" }]
+  },
+  {
+    "title": "Kth Largest Element",
+    "description": "Find the kth largest element in an array.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "6\n3 2 1 5 6 4\n2", "output": "5" }]
+  },
+  {
+    "title": "Subarray Sum Equals K",
+    "description": "Count the number of subarrays whose sum equals k.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "5\n1 1 1 2 1\n3", "output": "3" }]
+  },
+  {
+    "title": "Longest Common Prefix",
+    "description": "Find the longest common prefix among strings.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "3\nflower flow flight", "output": "fl" }]
+  },
+  {
+    "title": "Anagram Check",
+    "description": "Check if two strings are anagrams.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "listen silent", "output": "true" }]
+  },
+  {
+    "title": "Matrix Transpose",
+    "description": "Compute the transpose of a matrix.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "2 2\n1 2\n3 4", "output": "1 3\n2 4" }]
+  },
+  {
+    "title": "Spiral Matrix",
+    "description": "Print a matrix in spiral order.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "2 3\n1 2 3\n4 5 6", "output": "1 2 3 6 5 4" }]
+  },
+  {
+    "title": "Group Anagrams",
+    "description": "Group strings that are anagrams.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "3\neat tea tan", "output": "[eat tea] [tan]" }]
+  },
+  {
+    "title": "Product of Array Except Self",
+    "description": "Return array where each element is the product of all others.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "4\n1 2 3 4", "output": "24 12 8 6" }]
+  },
+  {
+    "title": "Search in Rotated Array",
+    "description": "Search a target in a rotated sorted array.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "7\n4 5 6 7 0 1 2\n0", "output": "4" }]
+  },
+  {
+    "title": "Linked List Cycle",
+    "description": "Detect if a linked list has a cycle.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "1 2 3 4 2", "output": "true" }]
+  },
+  {
+    "title": "Stack Using Queues",
+    "description": "Implement a stack using queues and process push/pop operations.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "push 1 push 2 pop", "output": "2" }]
+  },
+  {
+    "title": "Queue Using Stacks",
+    "description": "Implement a queue using stacks and process operations.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "enqueue 1 enqueue 2 dequeue", "output": "1" }]
+  },
+  {
+    "title": "Longest Increasing Subsequence",
+    "description": "Find the length of the longest increasing subsequence.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "6\n10 9 2 5 3 7", "output": "3" }]
+  },
+
+  {
+    "title": "Merge Intervals",
+    "description": "Merge overlapping intervals.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "3\n1 3\n2 6\n8 10", "output": "1 6\n8 10" }]
+  },
+  {
+    "title": "Longest Substring Without Repeating Characters",
+    "description": "Find the length of the longest substring without repeating characters.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "abcabcbb", "output": "3" }]
+  },
+  {
+    "title": "Minimum Window Substring",
+    "description": "Find the minimum window substring containing all characters of another string.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "ADOBECODEBANC\nABC", "output": "BANC" }]
+  },
+  {
+    "title": "Trapping Rain Water",
+    "description": "Calculate total trapped rain water between bars.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "12\n0 1 0 2 1 0 1 3 2 1 2 1", "output": "6" }]
+  },
+  {
+    "title": "Edit Distance",
+    "description": "Compute minimum operations to convert one string to another.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "horse ros", "output": "3" }]
+  },
+  {
+    "title": "Word Break",
+    "description": "Determine if a string can be segmented using dictionary words.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "leetcode\n2\nleet code", "output": "true" }]
+  },
+  {
+    "title": "Largest Rectangle in Histogram",
+    "description": "Find the area of the largest rectangle in a histogram.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "6\n2 1 5 6 2 3", "output": "10" }]
+  },
+  {
+    "title": "Median of Two Sorted Arrays",
+    "description": "Find the median of two sorted arrays.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "2\n1 3\n1\n2", "output": "2" }]
+  },
+  {
+    "title": "N-Queens",
+    "description": "Count the number of ways to place N queens on an NxN board.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "4", "output": "2" }]
+  },
+  {
+    "title": "Sudoku Solver",
+    "description": "Solve a given Sudoku puzzle.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "9x9 grid", "output": "solved grid" }]
+  },
+  {
+    "title": "Two Sum",
+    "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "nums = [2,7,11,15], target = 9",
+        "output": "[0,1]"
+      }
+    ]
+  },
+  {
+    "title": "Reverse String",
+    "description": "Write a function that reverses a string. The input string is given as an array of characters.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "[\"h\",\"e\",\"l\",\"l\",\"o\"]",
+        "output": "[\"o\",\"l\",\"l\",\"e\",\"h\"]"
+      }
+    ]
+  },
+  {
+    "title": "Palindrome Number",
+    "description": "Given an integer x, return true if x is a palindrome, and false otherwise.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "121",
+        "output": "true"
+      }
+    ]
+  },
+  {
+    "title": "Longest Substring Without Repeating Characters",
+    "description": "Given a string s, find the length of the longest substring without repeating characters.",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "\"abcabcbb\"",
+        "output": "3"
+      }
+    ]
+  },
+  {
+    "title": "Container With Most Water",
+    "description": "You are given an integer array height of length n. Find two lines that together with the x-axis form a container, such that the container contains the most water.",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "[1,8,6,2,5,4,8,3,7]",
+        "output": "49"
+      }
+    ]
+  },
+  {
+    "title": "Median of Two Sorted Arrays",
+    "description": "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.",
+    "difficulty": "hard",
+    "testCases": [
+      {
+        "input": "nums1 = [1,3], nums2 = [2]",
+        "output": "2.00000"
+      }
+    ]
+  },
+  {
+    "title": "Trapping Rain Water",
+    "description": "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.",
+    "difficulty": "hard",
+    "testCases": [
+      {
+        "input": "[0,1,0,2,1,0,1,3,2,1,2,1]",
+        "output": "6"
+      }
+    ]
+  },
+  {
+    "title": "Valid Parentheses",
+    "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "\"()[]{}\"",
+        "output": "true"
+      }
+    ]
+  },
+  {
+    "title": "Merge Two Sorted Lists",
+    "description": "You are given the heads of two sorted linked lists list1 and list2. Merge the two lists in a one sorted list.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "list1 = [1,2,4], list2 = [1,3,4]",
+        "output": "[1,1,2,3,4,4]"
+      }
+    ]
+  },
+  {
+    "title": "Maximum Subarray",
+    "description": "Given an integer array nums, find the subarray with the largest sum, and return its sum.",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "[-2,1,-3,4,-1,2,1,-5,4]",
+        "output": "6"
+      }
+    ]
+  },
+  {
+    "title": "Climbing Stairs",
+    "description": "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "3",
+        "output": "3"
+      }
+    ]
+  },
+  {
+    "title": "Merge k Sorted Lists",
+    "description": "You are given an array of k linked-lists lists, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return it.",
+    "difficulty": "hard",
+    "testCases": [
+      {
+        "input": "[[1,4,5],[1,3,4],[2,6]]",
+        "output": "[1,1,2,3,4,4,5,6]"
+      }
+    ]
+  },
+  {
+    "title": "Rotate Image",
+    "description": "You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "[[1,2,3],[4,5,6],[7,8,9]]",
+        "output": "[[7,4,1],[8,5,2],[9,6,3]]"
+      }
+    ]
+  },
+  {
+    "title": "Group Anagrams",
+    "description": "Given an array of strings strs, group the anagrams together. You can return the answer in any order.",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]",
+        "output": "[[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]"
+      }
+    ]
+  },
+  {
+    "title": "N-Queens",
+    "description": "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other. Return all distinct solutions to the n-queens puzzle.",
+    "difficulty": "hard",
+    "testCases": [
+      {
+        "input": "4",
+        "output": "[[.Q..,...Q,Q...,..Q.],[..Q.,Q...,...Q,.Q..]]"
+      }
+    ]
+  },
+  {
+    "title": "Binary Tree Level Order Traversal",
+    "description": "Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "[3,9,20,null,null,15,7]",
+        "output": "[[3],[9,20],[15,7]]"
+      }
+    ]
+  },
+  {
+    "title": "Best Time to Buy and Sell Stock",
+    "description": "You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "[7,1,5,3,6,4]",
+        "output": "5"
+      }
+    ]
+  },
+  {
+    "title": "Word Search",
+    "description": "Given an m x n grid of characters board and a string word, return true if word exists in the grid.",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"",
+        "output": "true"
+      }
+    ]
+  },
+  {
+    "title": "Largest Rectangle in Histogram",
+    "description": "Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.",
+    "difficulty": "hard",
+    "testCases": [
+      {
+        "input": "[2,1,5,6,2,3]",
+        "output": "10"
+      }
+    ]
+  },
+  {
+    "title": "Invert Binary Tree",
+    "description": "Given the root of a binary tree, invert the tree, and return its root.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "[4,2,7,1,3,6,9]",
+        "output": "[4,7,2,9,6,3,1]"
+      }
+    ]
+  },
+  {
+    "title": "Course Schedule",
+    "description": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return true if you can finish all courses.",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "numCourses = 2, prerequisites = [[1,0]]",
+        "output": "true"
+      }
+    ]
+  },
+  {
+    "title": "Minimum Window Substring",
+    "description": "Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window.",
+    "difficulty": "hard",
+    "testCases": [
+      {
+        "input": "s = \"ADOBECODEBANC\", t = \"ABC\"",
+        "output": "\"BANC\""
+      }
+    ]
+  },
+  {
+    "title": "Number of Islands",
+    "description": "Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "[[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"0\",\"0\",\"1\",\"0\",\"0\"],[\"0\",\"0\",\"0\",\"1\",\"1\"]]",
+        "output": "3"
+      }
+    ]
+  },
+  {
+    "title": "Reverse Linked List",
+    "description": "Given the head of a singly linked list, reverse the list, and return the reversed list.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "[1,2,3,4,5]",
+        "output": "[5,4,3,2,1]"
+      }
+    ]
+  },
+  {
+    "title": "Product of Array Except Self",
+    "description": "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "[1,2,3,4]",
+        "output": "[24,12,8,6]"
+      }
+    ]
+  },
+  {
+    "title": "Sliding Window Maximum",
+    "description": "You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window.",
+    "difficulty": "hard",
+    "testCases": [
+      {
+        "input": "nums = [1,3,-1,-3,5,3,6,7], k = 3",
+        "output": "[3,3,5,5,6,7]"
+      }
+    ]
+  },
+  {
+    "title": "Valid Anagram",
+    "description": "Given two strings s and t, return true if t is an anagram of s, and false otherwise.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "s = \"anagram\", t = \"nagaram\"",
+        "output": "true"
+      }
+    ]
+  },
+  {
+    "title": "Top K Frequent Elements",
+    "description": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.",
+    "difficulty": "medium",
+    "testCases": [
+      {
+        "input": "nums = [1,1,1,2,2,3], k = 2",
+        "output": "[1,2]"
+      }
+    ]
+  },
+  {
+    "title": "Find Median from Data Stream",
+    "description": "The median is the middle value in an ordered integer list. Implement the MedianFinder class which supports adding a number and finding the current median.",
+    "difficulty": "hard",
+    "testCases": [
+      {
+        "input": "addNum(1), addNum(2), findMedian(), addNum(3), findMedian()",
+        "output": "1.5, 2.0"
+      }
+    ]
+  },
+  {
+    "title": "Missing Number",
+    "description": "Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.",
+    "difficulty": "easy",
+    "testCases": [
+      {
+        "input": "[3,0,1]",
+        "output": "2"
+      }
+    ]
+  },
+  {
+    "title": "Reverse a String",
+    "description": "Write a function that takes a string and returns it reversed.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "hello", "output": "olleh" }]
+  },
+  {
+    "title": "Check Palindrome",
+    "description": "Check if a string is a palindrome (reads same forwards and backwards). Print 'true' or 'false'.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "madam", "output": "true" }]
+  },
+  {
+    "title": "Sum of Array",
+    "description": "Calculate the sum of all numbers in an array [1, 2, 3, 4, 5].",
+    "difficulty": "easy",
+    "testCases": [{ "input": "", "output": "15" }]
+  },
+  {
+    "title": "Find Maximum",
+    "description": "Find the maximum number in the array [10, 50, 20, 90, 40].",
+    "difficulty": "easy",
+    "testCases": [{ "input": "", "output": "90" }]
+  },
+  {
+    "title": "Factorial of 5",
+    "description": "Calculate the factorial of 5 (5*4*3*2*1).",
+    "difficulty": "medium",
+    "testCases": [{ "input": "", "output": "120" }]
+  },
+  {
+    "title": "Count Vowels",
+    "description": "Count the number of vowels (a, e, i, o, u) in the string 'education'.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "", "output": "5" }]
+  },
+  {
+    "title": "FizzBuzz Logic",
+    "description": "For number 15: Print 'FizzBuzz' because it is divisible by both 3 and 5.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "15", "output": "FizzBuzz" }]
+  },
+  {
+    "title": "Prime Check",
+    "description": "Check if 17 is a prime number. Print 'Yes' or 'No'.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "17", "output": "Yes" }]
+  },
+  {
+    "title": "Fibonacci Number",
+    "description": "Print the 10th number in the Fibonacci sequence (Start: 0, 1...).",
+    "difficulty": "hard",
+    "testCases": [{ "input": "10", "output": "34" }]
+  },
+  {
+    "title": "Binary Search Index",
+    "description": "Find the index of 42 in sorted array [10, 20, 30, 42, 50].",
+    "difficulty": "hard",
+    "testCases": [{ "input": "", "output": "3" }]
+  },
+  {
+    "title": "Anagram Check",
+    "description": "Check if 'listen' and 'silent' are anagrams. Print 'true' or 'false'.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "", "output": "true" }]
+  },
+  {
+    "title": "Power of Two",
+    "description": "Check if 1024 is a power of two. Print 'true' or 'false'.",
+    "difficulty": "hard",
+    "testCases": [{ "input": "1024", "output": "true" }]
+  },
+  {
+    "title": "Remove Duplicates",
+    "description": "Remove duplicates from [1, 2, 2, 3] and print unique count.",
+    "difficulty": "medium",
+    "testCases": [{ "input": "", "output": "3" }]
+  },
+  {
+    "title": "Second Largest",
+    "description": "Find the second largest number in [10, 20, 4, 45, 99].",
+    "difficulty": "medium",
+    "testCases": [{ "input": "", "output": "45" }]
+  },
+  {
+    "title": "Leap Year",
+    "description": "Check if 2024 is a leap year. Print 'Yes' or 'No'.",
+    "difficulty": "easy",
+    "testCases": [{ "input": "2024", "output": "Yes" }]
+  }
+]
