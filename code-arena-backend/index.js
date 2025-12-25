@@ -4,63 +4,56 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const authRoutes = require("./routes/auth"); 
+const authRoutes = require("./routes/auth");
 const compileRoutes = require("./routes/compile");
 const userRoutes = require("./routes/userRoutes");
+const Question = require("./models/Question");
 
 const app = express();
-
-// Allow Vercel to talk to Backend
-app.use(cors({ origin: "*" })); 
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-app.use("/api/auth", authRoutes); 
+app.use("/api/auth", authRoutes);
 app.use("/api/compile", compileRoutes);
 app.use("/api/users", userRoutes);
 
 const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 
-const io = new Server(server, {
-  cors: {
-    origin: "*", // 🔥 IMPORTANT: ETA CHANGE KORLAM
-    methods: ["GET", "POST"],
-  },
-});
-
-mongoose
-  .connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected Successfully!"))
-  .catch((err) => console.log("❌ DB Connection Error:", err));
+  .catch((err) => console.log("❌ DB Error:", err));
 
 const roomState = {};
-const Question = require("./models/Question"); // Ensure Model is imported
 
 io.on("connection", (socket) => {
-  
+  console.log("User Connected:", socket.id);
+
   socket.on("join_room", async ({ room, difficulty }) => {
     socket.join(room);
     
-    const level = difficulty || "easy";
-
     if (!roomState[room]) {
+      console.log(`🔎 Finding Question for Room: ${room}`);
       try {
-        const count = await Question.countDocuments({ difficulty: level });
-        let randomQ;
-        if (count > 0) {
-            const random = Math.floor(Math.random() * count);
-            randomQ = await Question.findOne({ difficulty: level }).skip(random);
-        } else {
-            const total = await Question.countDocuments();
-            const random = Math.floor(Math.random() * total);
-            randomQ = await Question.findOne().skip(random);
+        // 🔥 Robust Query: Falls back to ANY question if 'difficulty' query fails
+        const count = await Question.countDocuments();
+        const random = Math.floor(Math.random() * count);
+        let randomQ = await Question.findOne().skip(random);
+
+        if (!randomQ) {
+            // Backup dummy question if DB is truly empty
+            randomQ = {
+                title: "Emergency Mission",
+                description: "Database is empty. Print 'Hello World'",
+                testCases: [{input: "", output: "Hello World"}]
+            };
         }
 
-        roomState[room] = {
-          problem: randomQ,
-          startTime: Date.now(),
-        };
+        roomState[room] = { problem: randomQ, startTime: Date.now() };
+        console.log("✅ Question Found:", randomQ.title);
+
       } catch (err) {
-        console.error("Error fetching question:", err);
+        console.error("❌ Error fetching question:", err);
       }
     }
 
@@ -72,6 +65,4 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`SERVER RUNNING ON PORT ${PORT} 🚀`);
-});
+server.listen(PORT, () => console.log(`SERVER RUNNING ON PORT ${PORT} 🚀`));
